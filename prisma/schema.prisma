@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mongodb"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+// schema.prisma
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  adminId   String   @unique
+  name      String
+  email     String   @unique
+  role      String // Position in the company (e.g., "developer", "marketing", "commercial")
+  isAdmin   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Define a relation to Questionnaires
+  questionnaireIDs String[]
+  questionnaires   Questionnaire[] @relation(fields: [questionnaireIDs], references: [id])
+
+  Approval Approval[]
+}
+
+// Define the Questionnaire model
+model Questionnaire {
+  id        String   @id @default(cuid()) @map("_id")
+  name      String
+  version   Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Define a relation to Users
+  userIDs String[] @db.ObjectId
+  users   User[]   @relation(fields: [userIDs], references: [id])
+
+  // Define a relation to Questions
+  questions Question[]
+
+  // Define a relation to Approvals
+  approvals Approval[]
+}
+
+// Define the Question model (unchanged from the previous example)
+model Question {
+  id        String   @id @default(cuid()) @map("_id")
+  text      String
+  type      String // You can use an Enum here for question types
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Define a relation to Questionnaire
+  questionnaire   Questionnaire @relation(fields: [questionnaireId], references: [id])
+  questionnaireId String
+  Answer          Answer[]
+}
+
+// Define the Answer model (unchanged from the previous example)
+model Answer {
+  id        String   @id @default(cuid()) @map("_id")
+  text      String
+  isCorrect Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Define a relation to Question
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId String
+}
+
+// Define the Approval model
+model Approval {
+  id        String   @id @default(cuid()) @map("_id")
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Define a relation to MyUser
+  userId          String         @db.ObjectId
+  user            User           @relation(fields: [userId], references: [id])
+  Questionnaire   Questionnaire? @relation(fields: [questionnaireId], references: [id])
+  questionnaireId String
+}
