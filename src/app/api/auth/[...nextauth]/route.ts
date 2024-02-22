@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import { PrismaClient } from '@prisma/client';
 
 
-const prisma = new PrismaClient();
+const prisma = globalThis.prisma || new PrismaClient();
 const AUTH_URL = process.env.AUTH_URL || "";
 
 const handler = NextAuth({

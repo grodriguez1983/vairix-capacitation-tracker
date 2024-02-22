@@ -1,14 +1,12 @@
-// this is a componet that will be used to render the login page
-// this componet must be created using react, tailwindcss and react-aria-components and typescript
 "use client";
 import React from "react";
-import { Form } from "react-aria-components";
 import { signIn } from "next-auth/react";
 
-import Button from "@/components/Button";
 import TextInput from "@/components/TextInput";
 import Toast from "@/components/Toast";
 import { useSearchParams } from "next/navigation";
+import Button from "@/components/Button";
+import Card from "@/components/Card";
 
 export default function LoginPage() {
   const [loading, setLoading] = React.useState(false);
@@ -37,13 +35,13 @@ export default function LoginPage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       {error && <Toast>Usuario o contraseña invalidos</Toast>}
-      <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+      <Card>
         <div className="py-8">
           <center>
             <span className="text-2xl font-semibold">Log In</span>
           </center>
         </div>
-        <Form className="gap-2 flex gap-4 flex-col" onSubmit={onSubmit}>
+        <form className="gap-2 flex gap-4 flex-col" onSubmit={onSubmit}>
           <TextInput
             label="Email"
             name="email"
@@ -59,12 +57,12 @@ export default function LoginPage() {
             required
           />
           <div className="flex items-center justify-end mt-4">
-            <Button type="submit" isDisabled={loading}>
+            <Button type="submit" disabled={loading}>
               Login
             </Button>
           </div>
-        </Form>
-      </div>
+        </form>
+      </Card>
     </main>
   );
 }

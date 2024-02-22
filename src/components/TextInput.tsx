@@ -1,10 +1,8 @@
 "use client";
-import { Label, TextField, Input } from "react-aria-components";
 import classNames from "classnames";
+import { InputHTMLAttributes } from "react";
 
-import type { InputProps } from "react-aria-components";
-
-export interface TextInputProps extends InputProps {
+export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   name: string;
 }
@@ -16,15 +14,16 @@ export default function TextInput({
   ...props
 }: TextInputProps) {
   return (
-    <TextField name={name}>
-      <Label className="block font-medium text-sm text-gray-700">{label}</Label>
-      <Input
+    <div>
+      <label className="block text-sm text-gray-600">{label}</label>
+      <input
+        name={name}
         {...props}
         className={classNames(
           className,
-          "w-full rounded-md py-2.5 px-4 border text-sm outline-[#f84525]"
+          "w-full px-5 py-4 text-gray-700 bg-gray-200 rounded"
         )}
       />
-    </TextField>
+    </div>
   );
 }
