@@ -1,7 +1,8 @@
 "use client";
-import LogoutButton from "@/components/LogoutButton";
 import { signOut } from "next-auth/react";
 import { useState } from "react";
+import HamburgerOpen from "@/components/icons/HamburgerOpen";
+import HamburgerClosed from "@/components/icons/HamburgerClosed";
 
 export default function Header() {
   const [navbarOpen, setNavbarOpen] = useState(false);
@@ -21,7 +22,7 @@ export default function Header() {
               type="button"
               onClick={() => setNavbarOpen(!navbarOpen)}
             >
-              <i className="fas fa-bars"></i>
+              {navbarOpen ? <HamburgerOpen /> : <HamburgerClosed />}
             </button>
           </div>
           <div
@@ -32,24 +33,6 @@ export default function Header() {
             id="example-navbar-danger"
           >
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
-              <li className="nav-item">
-                <a
-                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-                  href="#pablo"
-                >
-                  <i className="fab fa-facebook-square text-lg leading-lg text-white opacity-75"></i>
-                  <span className="ml-2">Share</span>
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-                  href="#pablo"
-                >
-                  <i className="fab fa-twitter text-lg leading-lg text-white opacity-75"></i>
-                  <span className="ml-2">Tweet</span>
-                </a>
-              </li>
               <li className="nav-item">
                 <a
                   className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"

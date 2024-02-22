@@ -1,6 +1,6 @@
 import { checkUserRole } from "@/lib/auth";
 import { ReactNode } from "react";
-import Header from "./components/Header";
+import Header from "@/components/Header";
 
 export default async function Layout({
   user,
