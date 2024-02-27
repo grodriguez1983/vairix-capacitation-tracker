@@ -89,3 +89,27 @@ model Approval {
   Questionnaire   Questionnaire? @relation(fields: [questionnaireId], references: [id])
   questionnaireId String
 }
+
+// Define the Office model
+model Office {
+  id              String         @id @default(cuid()) @map("_id")
+  name            String
+  createdAt       DateTime       @default(now())
+  type            String
+
+  // Define a relation to Event
+  events          Event[]
+}
+
+// Define the Event model
+model Event {
+  id              String         @id @default(cuid()) @map("_id")
+  name            String
+  createdAt       DateTime       @default(now())
+  start           DateTime       
+  end             DateTime       
+
+  // Define a relation to Office
+  officeId        String
+  office          Office @relation(fields: [officeId], references: [id])
+}
