@@ -1,6 +1,7 @@
 import { checkUserRole } from "@/lib/auth";
 import { ReactNode } from "react";
 import Header from "@/components/Header";
+import { Sidebar } from "@/components/Sidebar";
 
 export default async function Layout({
   user,
@@ -11,8 +12,10 @@ export default async function Layout({
 }) {
   const role = await checkUserRole();
   return (
-    <main className=" min-h-screen flex flex-col items-center mx-auto">
-      <div className="relative w-full flex flex-col h-screen overflow-y-hidden">
+    <main className="relative w-full flex flex-col sm:flex-row h-screen overflow-y-hidden">
+      <Sidebar />
+
+      <div className="w-full flex flex-col h-full">
         <Header />
         {role === "admin" ? admin : user}
       </div>
