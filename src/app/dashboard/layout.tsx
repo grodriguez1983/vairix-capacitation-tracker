@@ -15,7 +15,7 @@ export default async function Layout({
     <main className="relative w-full flex flex-col sm:flex-row h-screen overflow-y-hidden">
       <Sidebar />
 
-      <div className="w-full flex flex-col h-full">
+      <div className="w-full flex flex-col h-full bg-white">
         <Header />
         {role === "admin" ? admin : user}
       </div>

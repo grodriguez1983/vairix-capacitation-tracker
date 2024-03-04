@@ -32,7 +32,7 @@ export default function Header() {
 
   return (
     <header
-      className="w-full hidden sm:flex items-center px-6 py-2 bg-white"
+      className="w-full hidden sm:flex items-center px-6 py-2 bg-gray-100"
       ref={headerRef}
     >
       <div className="relative w-full flex justify-end">
