@@ -3,7 +3,7 @@ import { signOut } from "next-auth/react";
 import { MouseEventHandler, useRef, useState } from "react";
 import { UserIcon } from "./icons/UserIcon";
 import Link from "next/link";
-import useClickOutside from "@/hooks/useClickOutside";
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 const NavbarItem = ({
   href = "",
