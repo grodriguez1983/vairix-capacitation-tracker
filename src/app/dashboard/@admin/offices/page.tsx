@@ -2,7 +2,7 @@ import Link from "next/link";
 import Search from "@/components/Search";
 import Pagination from "@/components/Pagination";
 import { fetchOffices } from "@/lib/data";
-import { deleteOffice } from "@/lib/actions";
+import { OfficesTable } from "@/components/Table/OfficesTable";
 
 interface SearchParams {
   q?: string;
@@ -19,7 +19,7 @@ const OfficesPage = async ({
   const { count, offices } = await fetchOffices(q, page);
 
   return (
-    <div className="p-4">
+    <div className="p-6">
       <div>
         <h2 className="text-2xl text-black font-semibold leading-tight">
           Offices
@@ -35,60 +35,8 @@ const OfficesPage = async ({
           </Link>
         </div>
       </div>
-      <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-        <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-          <table className="min-w-full leading-normal">
-            <thead>
-              <tr>
-                <th className="w-1/4 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Name
-                </th>
-                <th className="w-1/4 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Created At
-                </th>
-                <th className="w-1/4 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Type
-                </th>
-                <th className="w-1/4 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {offices.map((office: any) => (
-                <tr key={office.id}>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-black">
-                    {office.name}
-                  </td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-black">
-                    {office.createdAt?.toString().slice(4, 16)}
-                  </td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-black">
-                    {office.type}
-                  </td>
-                  <td className="flex justify-start gap-2 px-5 py-5 border-b border-gray-200 bg-white text-sm text-black">
-                    <span>
-                      <Link href={`/dashboard/offices/${office.id}`}>
-                        <button className="font-semibold text-green-900 leading-tight">
-                          Update
-                        </button>
-                      </Link>
-                    </span>
-                    <span>
-                      <form action={deleteOffice}>
-                        <input type="hidden" name="id" value={office.id} />
-                        <button className="font-semibold text-orange-900 leading-tight">
-                          Delete
-                        </button>
-                      </form>
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <Pagination count={count} />
-        </div>
+      <div className="py-4">
+        <OfficesTable data={offices} count={count} />
       </div>
     </div>
   );
