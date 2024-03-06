@@ -15,7 +15,6 @@ export const validateOfficeData = (name: string, type: string) => {
 
 
   // Validate type
-  console.log("OfficeType ", OfficeType)
   const validTypes = Object.values(OfficeType) as string[];
   if (!type) {
     errors.type = "Type is required";
