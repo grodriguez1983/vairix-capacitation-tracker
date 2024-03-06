@@ -1,9 +1,13 @@
+import { Office, OfficesResponse } from "@/types/offices";
 import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth";
 
 const prisma = globalThis.prisma || new PrismaClient();
 
-export const fetchOffices = async (q: string, page: number) => {
+export const fetchOffices = async (
+  q: string,
+  page: number
+): Promise<OfficesResponse> => {
   const session = await getServerSession();
   const defaultReturn = { count: 0, offices: [] };
 
@@ -52,12 +56,6 @@ export const fetchOffices = async (q: string, page: number) => {
     }
   }
 };
-
-interface Office {
-  id: string;
-  name: string;
-  type: string;
-}
 
 export const fetchOffice = async (id: string): Promise<Office | null> => {
   const session = await getServerSession();
