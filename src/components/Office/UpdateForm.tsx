@@ -1,15 +1,20 @@
 "use client";
 
-import { useState } from "react";
-import { addOffice } from "@/lib/actions";
+import { updateOffice } from "@/lib/actions";
 import { validateOfficeData } from "@/lib/validations";
+import { Office } from "@/types/offices";
+import { useState } from "react";
+
+interface UpdateFormProps {
+  office: Office;
+}
 
 interface Errors {
   name?: string;
   type?: string;
 }
 
-const AddOfficePage = () => {
+const UpdateForm = ({ office }: UpdateFormProps) => {
   const [errors, setErrors] = useState<Errors>({});
 
   const clientAction = async (formData: FormData) => {
@@ -21,7 +26,7 @@ const AddOfficePage = () => {
 
     if (!isValid) return;
 
-    await addOffice(formData);
+    await updateOffice(formData);
   };
 
   const handleInputChange = (
@@ -39,41 +44,44 @@ const AddOfficePage = () => {
         action={clientAction}
         className="max-w-xl m-4 p-10 bg-white rounded shadow-xl"
       >
+        <input type="hidden" name="id" value={office.id} />
         <div className="mb-4">
-          <label className="block text-sm mb-1">Name</label>
+          <label className="block text-sm  mb-1">Name</label>
           <input
-            className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded h-10"
             type="text"
-            placeholder="Name"
             name="name"
+            placeholder={office.name}
+            className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded h-10"
             onChange={handleInputChange}
-            required
           />
           {errors.name && <p className="text-red-500 text-xs">{errors.name}</p>}
         </div>
         <div className="mb-4">
           <label className="block text-sm mb-1">Type</label>
           <select
-            className="w-full px-4 py-1 text-gray-700 bg-gray-200 rounded h-10"
             name="type"
             id="type"
+            className="w-full px-4 py-1 text-gray-700 bg-gray-200 rounded h-10"
             onChange={handleInputChange}
           >
-            <option value="small">Small</option>
-            <option value="medium">Medium</option>
-            <option value="large">Large</option>
+            <option selected={office.type === "small"} value="small">
+              Small
+            </option>
+            <option selected={office.type === "medium"} value="medium">
+              Medium
+            </option>
+            <option selected={office.type === "large"} value="large">
+              Large
+            </option>
           </select>
           {errors.type && <p className="text-red-500 text-xs">{errors.type}</p>}
         </div>
-        <button
-          className="px-4 py-1 text-white font-light mt-4 tracking-wider bg-gray-900 rounded"
-          type="submit"
-        >
-          Submit
+        <button className="px-4 py-1 text-white font-light mt-4 tracking-wider bg-gray-900 rounded">
+          Update
         </button>
       </form>
     </div>
   );
 };
 
-export default AddOfficePage;
+export default UpdateForm;

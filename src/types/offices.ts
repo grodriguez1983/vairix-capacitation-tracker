@@ -1,8 +1,13 @@
-export interface Office {
+export enum OfficeType {
+  Small = "small",
+  Medium = "medium",
+  Large = "large",
+}
+  export interface Office {
   id: string;
   name: string;
   createdAt: Date;
-  type: string;
+  type: OfficeType;
 }
 
 export interface OfficesResponse {
