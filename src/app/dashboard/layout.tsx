@@ -15,7 +15,7 @@ export default async function Layout({
     <>
       <div id="dialogs" />
       <main className="relative w-full flex flex-col sm:flex-row h-screen overflow-y-hidden">
-        <Sidebar />
+        <Sidebar role={role} />
 
         <div className="w-full flex flex-col h-full bg-white">
           <Header />
