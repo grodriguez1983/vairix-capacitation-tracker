@@ -7,6 +7,7 @@ import { useState } from "react";
 
 interface UpdateFormProps {
   office: Office;
+  onClose: () => void;
 }
 
 interface Errors {
@@ -14,7 +15,7 @@ interface Errors {
   type?: string;
 }
 
-const UpdateForm = ({ office }: UpdateFormProps) => {
+export const UpdateForm = ({ office, onClose }: UpdateFormProps) => {
   const [errors, setErrors] = useState<Errors>({});
 
   const clientAction = async (formData: FormData) => {
@@ -40,10 +41,7 @@ const UpdateForm = ({ office }: UpdateFormProps) => {
 
   return (
     <div className="leading-loose text-black flex justify-center">
-      <form
-        action={clientAction}
-        className="max-w-xl m-4 p-10 bg-white rounded shadow-xl"
-      >
+      <form action={clientAction} className="max-w-xl bg-white rounded">
         <input type="hidden" name="id" value={office.id} />
         <div className="mb-4">
           <label className="block text-sm  mb-1">Name</label>
@@ -76,12 +74,18 @@ const UpdateForm = ({ office }: UpdateFormProps) => {
           </select>
           {errors.type && <p className="text-red-500 text-xs">{errors.type}</p>}
         </div>
-        <button className="px-4 py-1 text-white font-light mt-4 tracking-wider bg-gray-900 rounded">
-          Update
-        </button>
+        <div className="flex mt-4 gap-4">
+          <button
+            className="border-neutral-200 bg-white hover:bg-neutral-100 border-2 px-4 py-1 flex items-center font-white rounded-md transition-colors h-10"
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+          <button className="h-10 px-4 py-1 flex items-center text-white font-light bg-gray-900 rounded">
+            Update
+          </button>
+        </div>
       </form>
     </div>
   );
 };
-
-export default UpdateForm;

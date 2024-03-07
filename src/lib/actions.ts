@@ -77,7 +77,6 @@ export const addOffice = async (formData: FormData) => {
   }
 
   revalidatePath("/dashboard/offices");
-  redirect("/dashboard/offices");
 };
 
 export const updateOffice = async (formData: FormData) => {
@@ -123,5 +122,4 @@ export const updateOffice = async (formData: FormData) => {
   }
 
   revalidatePath("/dashboard/offices");
-  redirect("/dashboard/offices");
 };
