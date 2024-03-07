@@ -1,8 +1,7 @@
-import Link from "next/link";
 import Search from "@/components/Search";
-import Pagination from "@/components/Pagination";
 import { fetchOffices } from "@/lib/data";
-import { OfficesTable } from "@/components/Table/OfficesTable";
+import { OfficesTable } from "@/components/Office/OfficesTable";
+import { AddButton } from "@/components/Office/AddForm";
 
 interface SearchParams {
   q?: string;
@@ -28,11 +27,7 @@ const OfficesPage = async ({
       <div className="my-2 flex sm:flex-row flex-col">
         <div className="flex flex-row mb-1 sm:mb-0 w-full justify-between">
           <Search placeholder="Search for an office..." />
-          <Link href="/dashboard/offices/add">
-            <button className="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-md">
-              Add New
-            </button>
-          </Link>
+          <AddButton />
         </div>
       </div>
       <div className="py-4">
