@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { addOffice } from "@/lib/actions";
 import { validateOfficeData } from "@/lib/validations";
-import Button from "@/components/Button";
 
 interface Errors {
   name?: string;
@@ -66,7 +65,12 @@ const AddOfficePage = () => {
           </select>
           {errors.type && <p className="text-red-500 text-xs">{errors.type}</p>}
         </div>
-        <Button label="Add" type="submit" />
+        <button
+          className="px-4 py-1 text-white font-light mt-4 tracking-wider bg-gray-900 rounded"
+          type="submit"
+        >
+          Submit
+        </button>
       </form>
     </div>
   );
