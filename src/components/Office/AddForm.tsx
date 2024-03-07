@@ -4,7 +4,7 @@ import { useState } from "react";
 import { addOffice } from "@/lib/actions";
 import { validateOfficeData } from "@/lib/validations";
 import { Modal } from "../Modal";
-import { Spinner } from "../Spinner";
+import Button from "../Button";
 
 interface Errors {
   name?: string;
@@ -92,9 +92,7 @@ const AddForm = ({ onClose }: { onClose: () => void }) => {
           >
             Cancel
           </button>
-          <button className="h-10 px-4 py-1 flex items-center text-white font-light bg-gray-900 rounded">
-            Submit
-          </button>
+          <Button label="Submit" />
         </div>
       </form>
     </div>

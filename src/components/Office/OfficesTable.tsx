@@ -1,6 +1,6 @@
 "use client";
 
-import { Office, OfficeType } from "@/types/offices";
+import { Office } from "@/types/offices";
 import Pagination from "../Pagination";
 import { Actions } from "../Table/Actions";
 import { Table } from "../Table";
