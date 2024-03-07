@@ -1,23 +1,30 @@
-import classNames from "classnames";
 import React from "react";
+import { useFormStatus } from "react-dom";
+import classNames from "classnames";
 
-export default function Button({
-  className = "",
-  children,
-  disabled = false,
-  ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  label: string;
+}
+
+const Button: React.FC<ButtonProps> = ({ label, className, ...props }) => {
+  const { pending } = useFormStatus();
+
   return (
     <button
-      {...props}
       className={classNames(
-        className,
-        `px-4 py-1 text-white font-light tracking-wider ${
-          disabled ? "bg-gray-400" : "bg-gray-900"
-        } rounded`
+        "px-4 py-1 font-light h-10 tracking-wider rounded",
+        {
+          "text-white bg-gray-900": !pending,
+          "text-gray-500 bg-gray-300": pending,
+        },
+        className
       )}
+      disabled={pending}
+      {...props}
     >
-      {children}
+      {!pending ? label : "Processing..."}
     </button>
   );
-}
+};
+
+export default Button;

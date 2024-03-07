@@ -1,9 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { updateOffice } from "@/lib/actions";
 import { validateOfficeData } from "@/lib/validations";
 import { Office } from "@/types/offices";
-import { useState } from "react";
+import Button from "@/components/Button";
 
 interface UpdateFormProps {
   office: Office;
@@ -81,9 +82,7 @@ export const UpdateForm = ({ office, onClose }: UpdateFormProps) => {
           >
             Cancel
           </button>
-          <button className="h-10 px-4 py-1 flex items-center text-white font-light bg-gray-900 rounded">
-            Update
-          </button>
+          <Button label="Update" />
         </div>
       </form>
     </div>
