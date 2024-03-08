@@ -17,7 +17,7 @@ const NavbarItem = ({
   <li onClick={onClick}>
     <Link
       href={href}
-      className="hover:bg-blue-600 block px-4 py-2 account-link hover:text-white"
+      className="hover:bg-blue-600 block px-4 py-2 text-black account-link hover:text-white"
     >
       {label}
     </Link>
@@ -32,7 +32,7 @@ export default function Header() {
 
   return (
     <header
-      className="w-full hidden sm:flex items-center px-6 py-2 bg-gray-100"
+      className="w-full hidden z-50 sm:flex items-center px-6 py-2 bg-gray-100"
       ref={headerRef}
     >
       <div className="relative w-full flex justify-end">

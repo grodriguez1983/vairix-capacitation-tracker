@@ -1,6 +1,7 @@
 import { Office, OfficeType, OfficesResponse } from "@/types/offices";
 import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth";
+import { ITEMS_PER_PAGE } from "@/lib/constants";
 
 const prisma = globalThis.prisma || new PrismaClient();
 
@@ -23,8 +24,6 @@ export const fetchOffices = async (
     return defaultReturn;
   }
 
-  const ITEM_PER_PAGE = 2;
-
   try {
     const count = await prisma.office.count({
       where: {
@@ -42,8 +41,8 @@ export const fetchOffices = async (
           mode: "insensitive",
         },
       },
-      take: ITEM_PER_PAGE,
-      skip: ITEM_PER_PAGE * (page - 1),
+      take: ITEMS_PER_PAGE,
+      skip: ITEMS_PER_PAGE * (page - 1),
     });
 
     // Validate and typecast each office

@@ -121,7 +121,7 @@ const App: FC = () => {
         selectable
         onNavigate={onNavigate}
         onSelectEvent={handleSelectEvent}
-        style={{ height: "100vh" }}
+        style={{ height: "100vh", color: "rgb(37 99 235)"}}
       />
     </Card>
   );

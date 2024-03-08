@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { updateOffice } from "@/lib/actions";
-import { validateOfficeData } from "@/lib/validations";
+import { validateUpdateOfficeData } from "@/lib/validations";
 import { Office } from "@/types/offices";
 import Button from "@/components/Button";
 
@@ -23,7 +23,7 @@ export const UpdateForm = ({ office, onClose }: UpdateFormProps) => {
     const name = formData.get("name") as string;
     const type = formData.get("type") as string;
 
-    const { errors: newErrors, isValid } = validateOfficeData(name, type);
+    const { errors: newErrors, isValid } = validateUpdateOfficeData(name, type);
     setErrors(newErrors);
 
     if (!isValid) return;
@@ -75,7 +75,7 @@ export const UpdateForm = ({ office, onClose }: UpdateFormProps) => {
           </select>
           {errors.type && <p className="text-red-500 text-xs">{errors.type}</p>}
         </div>
-        <div className="flex mt-4 gap-4">
+        <div className="flex mt-4 gap-4 justify-center">
           <button
             className="border-neutral-200 bg-white hover:bg-neutral-100 border-2 px-4 py-1 flex items-center font-white rounded-md transition-colors h-10"
             onClick={onClose}
