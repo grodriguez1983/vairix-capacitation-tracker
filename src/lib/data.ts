@@ -23,7 +23,7 @@ export const fetchOffices = async (
     return defaultReturn;
   }
 
-  const ITEM_PER_PAGE = 2;
+  const ITEM_PER_PAGE = 7;
 
   try {
     const count = await prisma.office.count({

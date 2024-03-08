@@ -85,7 +85,7 @@ const AddForm = ({ onClose }: { onClose: () => void }) => {
           </select>
           {errors.type && <p className="text-red-500 text-xs">{errors.type}</p>}
         </div>
-        <div className="flex mt-4 gap-4">
+        <div className="flex mt-4 gap-4 justify-center">
           <button
             className="border-neutral-200 bg-white hover:bg-neutral-100 border-2 px-4 py-1 flex items-center font-white rounded-md transition-colors h-10"
             onClick={onClose}
