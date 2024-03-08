@@ -33,10 +33,6 @@ export const Table: React.FC<TableProps> = ({
   pagination,
   emptyMessage = "No data available",
 }) => {
-  if (!data.length) {
-    return <div>{emptyMessage}</div>;
-  }
-
   const TableComponent = () => (
     <table className="w-full">
       <thead>
@@ -75,8 +71,8 @@ export const Table: React.FC<TableProps> = ({
   );
 
   return (
-    <div className="w-full shadow rounded-lg overflow-x-auto">
-      <TableComponent />
+    <div className="w-full flex flex-col items-center shadow rounded-lg overflow-x-auto">
+      {data.length ? <TableComponent /> : <div>{emptyMessage}</div>}
       {pagination}
     </div>
   );

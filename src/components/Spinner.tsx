@@ -5,7 +5,9 @@ export const Spinner = ({
   ...props
 }: HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={`border-t-transparent border-solid animate-spin rounded-full border-white border-4 h-6 w-6 ${className}`}
+    className={`border-t-transparent border-solid animate-spin rounded-full border-4 ${
+      className ? className : "border-white h-6 w-6"
+    }`}
     {...props}
   />
 );
