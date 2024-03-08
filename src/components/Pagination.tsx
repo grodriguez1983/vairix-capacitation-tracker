@@ -1,5 +1,6 @@
 "use client";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { ITEMS_PER_PAGE } from "@/lib/constants";
 
 const Pagination = ({ count }: { count: number }) => {
   const searchParams = useSearchParams();
@@ -9,10 +10,8 @@ const Pagination = ({ count }: { count: number }) => {
   const page = searchParams.get("page") || "1";
   const params = new URLSearchParams(searchParams);
 
-  const ITEM_PER_PAGE = 7;
-
-  const hasPrev = ITEM_PER_PAGE * (parseInt(page) - 1) > 0;
-  const hasNext = ITEM_PER_PAGE * (parseInt(page) - 1) + ITEM_PER_PAGE < count;
+  const hasPrev = ITEMS_PER_PAGE * (parseInt(page) - 1) > 0;
+  const hasNext = ITEMS_PER_PAGE * (parseInt(page) - 1) + ITEMS_PER_PAGE < count;
 
   const handleChangePage = (type: string) => {
     type === "prev"
