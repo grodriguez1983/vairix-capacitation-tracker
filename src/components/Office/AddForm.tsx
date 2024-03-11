@@ -4,8 +4,11 @@ import { useState } from "react";
 import { addOffice } from "@/lib/actions";
 import { validateOfficeData } from "@/lib/validations";
 import { Modal } from "../Modal";
-import Button from "../Button";
-import TextInput from "@/components/TextInput";
+import SubmitButton from "../SubmitButton";
+import { OfficeType } from "@/types/offices";
+import TextInput from "@/components/inputs/TextInput";
+import SelectInput from "@/components/inputs/SelectInput";
+import { formatLabel } from "@/lib/helpers";
 
 interface Errors {
   name?: string;
@@ -59,30 +62,28 @@ const AddForm = ({ onClose }: { onClose: () => void }) => {
 
   return (
     <div className="leading-loose text-black flex justify-center">
-      <form action={clientAction} className="max-w-xl bg-white rounded flex flex-col gap-1">
-        <div className="mb-4">
-          <TextInput
-            label="Name"
-            name="name"
-            placeholder="Name"
-            onChange={handleInputChange}
-            error={errors.name}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm mb-1">Type</label>
-          <select
-            className="w-full px-4 py-1 text-gray-700 bg-gray-200 rounded h-10"
-            name="type"
-            id="type"
-            onChange={handleInputChange}
-          >
-            <option value="small">Small</option>
-            <option value="medium">Medium</option>
-            <option value="large">Large</option>
-          </select>
-          {errors.type && <p className="text-red-500 text-xs">{errors.type}</p>}
-        </div>
+      <form
+        action={clientAction}
+        className="max-w-xl bg-white rounded flex flex-col gap-1"
+      >
+        <TextInput
+          label="Name"
+          name="name"
+          placeholder="Name"
+          type="text"
+          onChange={handleInputChange}
+          error={errors.name}
+        />
+        <SelectInput
+          label="Type"
+          name="type"
+          options={Object.values(OfficeType).map((value) => ({
+            value,
+            label: formatLabel(value),
+          }))}
+          onChange={handleInputChange}
+          error={errors.type}
+        />
         <div className="flex mt-4 gap-4 justify-center">
           <button
             className="border-neutral-200 bg-white hover:bg-neutral-100 border-2 px-4 py-1 flex items-center font-white rounded-md transition-colors h-10"
@@ -90,7 +91,7 @@ const AddForm = ({ onClose }: { onClose: () => void }) => {
           >
             Cancel
           </button>
-          <Button label="Submit" />
+          <SubmitButton label="Submit" />
         </div>
       </form>
     </div>

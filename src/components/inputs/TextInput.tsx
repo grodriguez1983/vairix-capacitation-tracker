@@ -15,7 +15,7 @@ const TextInput = ({
   ...props
 }: TextInputProps) => {
   return (
-    <div>
+    <div className="mb-4">
       <label className="block text-sm text-black mb-1">{label}</label>
       <input
         {...props}
