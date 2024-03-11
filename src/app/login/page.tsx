@@ -6,25 +6,31 @@ import Toast from "@/components/Toast";
 import { useSearchParams } from "next/navigation";
 import Button from "@/components/Button";
 import Card from "@/components/Card";
+import { useTransition } from "react";
 
 export default function LoginPage() {
+  const [isPending, startTransition] = useTransition();
+
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
 
   let onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     let data = Object.fromEntries(new FormData(e.currentTarget));
     const { email, password } = data;
 
-    try {
-      await signIn("credentials", {
-        email,
-        password,
-        redirect: true,
-      });
-    } catch (error) {
-      console.log("Failed to sign in", error);
-    }
+    startTransition(async () => {
+      try {
+        await signIn("credentials", {
+          email,
+          password,
+          redirect: true,
+        });
+      } catch (error) {
+        console.log("Failed to sign in", error);
+      }
+    });
   };
 
   return (
@@ -52,7 +58,7 @@ export default function LoginPage() {
             required
           />
           <div className="flex items-center justify-end mt-4">
-            <Button label="submit" />
+            <Button pending={isPending} label="Submit" />
           </div>
         </form>
       </Card>
