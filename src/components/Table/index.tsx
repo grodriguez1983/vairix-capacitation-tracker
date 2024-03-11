@@ -72,7 +72,11 @@ export const Table: React.FC<TableProps> = ({
 
   return (
     <div className="w-full flex flex-col items-center shadow rounded-lg overflow-x-auto">
-      {data.length ? <TableComponent /> : <div>{emptyMessage}</div>}
+      {data.length ? (
+        <TableComponent />
+      ) : (
+        <div className="p-6">{emptyMessage}</div>
+      )}
       {pagination}
     </div>
   );

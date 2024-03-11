@@ -46,7 +46,11 @@ export const OfficesTable = ({
 
   return (
     <Table
-      emptyMessage={<Spinner className="border-gray-600 mt-10 h-10 w-10" />}
+      emptyMessage={
+        count ? (
+          <Spinner className="border-gray-600 mt-10 h-10 w-10" />
+        ) : undefined
+      }
       columns={columns}
       data={data.map((office) => ({
         ...office,
