@@ -5,6 +5,7 @@ import { addOffice } from "@/lib/actions";
 import { validateOfficeData } from "@/lib/validations";
 import { Modal } from "../Modal";
 import Button from "../Button";
+import TextInput from "@/components/TextInput";
 
 interface Errors {
   name?: string;
@@ -58,18 +59,15 @@ const AddForm = ({ onClose }: { onClose: () => void }) => {
 
   return (
     <div className="leading-loose text-black flex justify-center">
-      <form action={clientAction} className="max-w-xl bg-white rounded">
+      <form action={clientAction} className="max-w-xl bg-white rounded flex flex-col gap-1">
         <div className="mb-4">
-          <label className="block text-sm mb-1">Name</label>
-          <input
-            className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded h-10"
-            type="text"
-            placeholder="Name"
+          <TextInput
+            label="Name"
             name="name"
+            placeholder="Name"
             onChange={handleInputChange}
-            required
+            error={errors.name}
           />
-          {errors.name && <p className="text-red-500 text-xs">{errors.name}</p>}
         </div>
         <div className="mb-4">
           <label className="block text-sm mb-1">Type</label>
