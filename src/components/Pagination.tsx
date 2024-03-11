@@ -32,7 +32,7 @@ const Pagination = ({ count }: { count: number }) => {
       params.set("page", String(lastAvailablePage));
       replace(`${pathname}?${params}`);
     }
-  }, [count, page, params, pathname, replace, searchParams]);
+  }, [count, page, params, pathname, replace]);
 
   const handleChangePage = (type: string) => {
     type === "prev"
