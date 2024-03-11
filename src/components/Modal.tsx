@@ -1,5 +1,6 @@
 "use client";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import FocusTrap from "focus-trap-react";
 import { HTMLAttributes, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -29,17 +30,19 @@ export const Modal = ({
   if (!isOpen) return null;
 
   const ModalComponent = () => (
-    <div
-      className={`fixed top-0 px-4 bottom-0 left-0 right-0 flex items-center justify-center visible overflow-auto bg-neutral-700 bg-opacity-40 z-50 p-4`}
-    >
+    <FocusTrap>
       <div
-        ref={modalContentRef}
-        className={`max-w-full md:max-w-2/3 max-h-2/3 p-8 bg-white rounded-md ${className}`}
-        {...rest}
+        className={`fixed top-0 px-4 bottom-0 left-0 right-0 flex items-center justify-center visible overflow-auto bg-neutral-700 bg-opacity-40 z-[99] p-4`}
       >
-        {children}
+        <div
+          ref={modalContentRef}
+          className={`max-w-full md:max-w-2/3 max-h-2/3 p-8 bg-white rounded-md ${className}`}
+          {...rest}
+        >
+          {children}
+        </div>
       </div>
-    </div>
+    </FocusTrap>
   );
 
   const dialogContainer = document.querySelector("#dialogs");
