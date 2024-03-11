@@ -48,14 +48,12 @@ export default function LoginPage() {
             name="email"
             type="email"
             placeholder="Email"
-            required
           />
           <TextInput
             label="Password"
             name="password"
             placeholder="Password"
             type="password"
-            required
           />
           <div className="flex items-center justify-end mt-4">
             <Button pending={isPending} label="Submit" />

@@ -7,7 +7,7 @@ import { Spinner } from "./Spinner";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
-  pending: boolean;
+  pending?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({

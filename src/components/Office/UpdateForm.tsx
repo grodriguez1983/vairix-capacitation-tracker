@@ -42,7 +42,7 @@ export const UpdateForm = ({ office, onClose }: UpdateFormProps) => {
 
   return (
     <div className="leading-loose text-black flex justify-center">
-      <form action={clientAction} className="max-w-xl bg-white rounded">
+      <form action={clientAction} className="max-w-xl bg-white rounded flex flex-col gap-1">
         <input type="hidden" name="id" value={office.id} />
         <div className="mb-4">
           <label className="block text-sm  mb-1">Name</label>

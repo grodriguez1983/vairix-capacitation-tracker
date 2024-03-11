@@ -1,29 +1,33 @@
-"use client";
+import React, { InputHTMLAttributes } from "react";
 import classNames from "classnames";
-import { InputHTMLAttributes } from "react";
 
-export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  name: string;
+  error?: string;
+  required?: boolean;
 }
 
-export default function TextInput({
+const TextInput = ({
   label,
-  name,
+  error,
   className = "",
+  required = true,
   ...props
-}: TextInputProps) {
+}: TextInputProps) => {
   return (
     <div>
-      <label className="block text-sm text-gray-600">{label}</label>
+      <label className="block text-sm text-black mb-1">{label}</label>
       <input
-        name={name}
         {...props}
         className={classNames(
-          className,
-          "w-full px-5 py-4 text-gray-700 bg-gray-200 rounded"
+          "w-full px-5 py-1 text-gray-700 bg-gray-200 rounded leading-8",
+          className
         )}
+        required={required}
       />
+      {error && <p className="text-red-500 text-xs">{error}</p>}
     </div>
   );
-}
+};
+
+export default TextInput;
