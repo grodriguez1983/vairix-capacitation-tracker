@@ -19,6 +19,8 @@ const Pagination = ({ count }: { count: number }) => {
 
   // useEffect to handle whenever the user is on an invalid page
   useEffect(() => {
+    if (!count) return;
+
     if (page <= 0) {
       params.set("page", "1");
       replace(`${pathname}?${params}`);
