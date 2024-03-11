@@ -4,7 +4,11 @@ import { useState } from "react";
 import { updateOffice } from "@/lib/actions";
 import { validateUpdateOfficeData } from "@/lib/validations";
 import { Office } from "@/types/offices";
-import Button from "@/components/Button";
+import SubmitButton from "@/components/SubmitButton";
+import SelectInput from "@/components/inputs/SelectInput";
+import { OfficeType } from "@/types/offices";
+import { formatLabel } from "@/lib/helpers";
+import TextInput from "../inputs/TextInput";
 
 interface UpdateFormProps {
   office: Office;
@@ -42,39 +46,31 @@ export const UpdateForm = ({ office, onClose }: UpdateFormProps) => {
 
   return (
     <div className="leading-loose text-black flex justify-center">
-      <form action={clientAction} className="max-w-xl bg-white rounded flex flex-col gap-1">
+      <form
+        action={clientAction}
+        className="max-w-xl bg-white rounded flex flex-col gap-1"
+      >
         <input type="hidden" name="id" value={office.id} />
-        <div className="mb-4">
-          <label className="block text-sm  mb-1">Name</label>
-          <input
-            type="text"
-            name="name"
-            placeholder={office.name}
-            className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded h-10"
-            onChange={handleInputChange}
-          />
-          {errors.name && <p className="text-red-500 text-xs">{errors.name}</p>}
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm mb-1">Type</label>
-          <select
-            name="type"
-            id="type"
-            className="w-full px-4 py-1 text-gray-700 bg-gray-200 rounded h-10"
-            onChange={handleInputChange}
-          >
-            <option selected={office.type === "small"} value="small">
-              Small
-            </option>
-            <option selected={office.type === "medium"} value="medium">
-              Medium
-            </option>
-            <option selected={office.type === "large"} value="large">
-              Large
-            </option>
-          </select>
-          {errors.type && <p className="text-red-500 text-xs">{errors.type}</p>}
-        </div>
+        <TextInput
+          label="Name"
+          name="name"
+          placeholder={office.name}
+          type="text"
+          onChange={handleInputChange}
+          error={errors.name}
+          required={false}
+        />
+        <SelectInput
+          label="Type"
+          name="type"
+          defaultValue={office.type}
+          options={Object.values(OfficeType).map((value) => ({
+            value,
+            label: formatLabel(value),
+          }))}
+          onChange={handleInputChange}
+          error={errors.type}
+        />
         <div className="flex mt-4 gap-4 justify-center">
           <button
             className="border-neutral-200 bg-white hover:bg-neutral-100 border-2 px-4 py-1 flex items-center font-white rounded-md transition-colors h-10"
@@ -82,7 +78,7 @@ export const UpdateForm = ({ office, onClose }: UpdateFormProps) => {
           >
             Cancel
           </button>
-          <Button label="Update" />
+          <SubmitButton label="Update" />
         </div>
       </form>
     </div>

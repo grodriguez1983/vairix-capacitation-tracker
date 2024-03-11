@@ -5,12 +5,12 @@ import { useFormStatus } from "react-dom";
 import classNames from "classnames";
 import { Spinner } from "./Spinner";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface SubmitButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
   pending?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({
+const SubmitButton: React.FC<SubmitButtonProps> = ({
   label,
   pending,
   className,
@@ -37,4 +37,4 @@ const Button: React.FC<ButtonProps> = ({
   );
 };
 
-export default Button;
+export default SubmitButton;

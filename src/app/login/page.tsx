@@ -1,10 +1,10 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import TextInput from "@/components/TextInput";
+import TextInput from "@/components/inputs/TextInput";
 import Toast from "@/components/Toast";
 import { useSearchParams } from "next/navigation";
-import Button from "@/components/Button";
+import SubmitButton from "@/components/SubmitButton";
 import Card from "@/components/Card";
 import { useTransition } from "react";
 
@@ -56,7 +56,7 @@ export default function LoginPage() {
             type="password"
           />
           <div className="flex items-center justify-end mt-4">
-            <Button pending={isPending} label="Submit" />
+            <SubmitButton pending={isPending} label="Submit" />
           </div>
         </form>
       </Card>

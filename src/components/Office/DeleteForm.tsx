@@ -1,5 +1,5 @@
 import { deleteOffice } from "@/lib/actions";
-import Button from "../Button";
+import SubmitButton from "../SubmitButton";
 
 export const DeleteForm = ({
   onClose,
@@ -16,7 +16,7 @@ export const DeleteForm = ({
       <div className="flex flex-row justify-center gap-4">
         <form action={deleteOffice}>
           <input type="hidden" name="id" value={id} />
-          <Button label="Delete" />
+          <SubmitButton label="Delete" />
         </form>
         <button
           className="border-neutral-200 bg-white hover:bg-neutral-100 border-2 px-4 py-1 flex items-center text-black rounded-md transition-colors h-10"
