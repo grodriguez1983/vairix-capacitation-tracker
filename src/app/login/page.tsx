@@ -6,10 +6,10 @@ import Toast from "@/components/Toast";
 import { useSearchParams } from "next/navigation";
 import SubmitButton from "@/components/SubmitButton";
 import Card from "@/components/Card";
-import { useTransition } from "react";
+import { useState } from "react";
 
 export default function LoginPage() {
-  const [isPending, startTransition] = useTransition();
+  const [isPending, setIsPending] = useState(false);
 
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
@@ -17,10 +17,11 @@ export default function LoginPage() {
   let onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    setIsPending(true);
+
     let data = Object.fromEntries(new FormData(e.currentTarget));
     const { email, password } = data;
 
-    startTransition(async () => {
       try {
         await signIn("credentials", {
           email,
@@ -30,7 +31,6 @@ export default function LoginPage() {
       } catch (error) {
         console.log("Failed to sign in", error);
       }
-    });
   };
 
   return (
