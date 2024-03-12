@@ -35,10 +35,8 @@ const App: FC = () => {
       events.forEach((event) => {
         if (event.title === name) return false;
         if (
-          event.start &&
-          event.end &&
-          ((event.start > start && event.start < end) ||
-            (event.end > start && event.end < end))
+          (event.start && event.start > start && event.start < end) ||
+          (event.end && event.end > start && event.end < end)
         ) {
           overlap = true;
         }
@@ -54,12 +52,8 @@ const App: FC = () => {
   }, []);
 
   const handleSelectSlot = useCallback(
-    (slotInfo: SlotInfo & { title?: string }) => {
-      const overlap = isOverlapping(
-        slotInfo.start,
-        slotInfo.end,
-        slotInfo?.title || ""
-      );
+    ({ start, end, title }: SlotInfo & { title?: string }) => {
+      const overlap = isOverlapping(start, end, title || "");
       if (overlap) {
         alert("esta ocupado!!");
         return;
@@ -83,12 +77,12 @@ const App: FC = () => {
     [events]
   );
 
-  const onEventResize: withDragAndDropProps<{
-    title?: string;
-  }>["onEventResize"] = (data) => {
-    const startDate = new Date(data.start);
-    const endDate = new Date(data.end);
-    const title = data.event.title || "";
+  const onEventResize: withDragAndDropProps<Event>["onEventResize"] = (
+    data
+  ) => {
+    const startDate = data.start as Date;
+    const endDate = data.end as Date;
+    const title = data.event.title?.toString() || "";
 
     // we must not allow even overlap
     const overlap = isOverlapping(startDate, endDate, title);
@@ -105,12 +99,10 @@ const App: FC = () => {
     }
   };
 
-  const onEventDrop: withDragAndDropProps<{ title?: string }>["onEventDrop"] = (
-    data
-  ) => {
-    const startDate = new Date(data.start);
-    const endDate = new Date(data.end);
-    const title = data.event.title || "";
+  const onEventDrop: withDragAndDropProps<Event>["onEventDrop"] = (data) => {
+    const startDate = data.start as Date;
+    const endDate = data.end as Date;
+    const title = data.event.title?.toString() || "";
 
     // we must not allow even overlap
     const overlap = isOverlapping(startDate, endDate, title);
@@ -164,7 +156,6 @@ const localizer = dateFnsLocalizer({
   getDay,
   locales,
 });
-
 const DnDCalendar = withDragAndDrop(Calendar);
 
 export default App;
