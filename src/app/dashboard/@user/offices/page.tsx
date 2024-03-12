@@ -1,7 +1,6 @@
 import Search from "@/components/Search";
 import { fetchOffices } from "@/lib/data";
 import { OfficesTable } from "@/components/Office/OfficesTable";
-import { AddButton } from "@/components/Office/AddForm";
 
 interface SearchParams {
   q?: string;
@@ -25,13 +24,12 @@ const OfficesPage = async ({
         </h2>
       </div>
       <div className="my-2 flex sm:flex-row flex-col">
-        <div className="flex flex-row mb-1 sm:mb-0 w-full justify-between">
+        <div className="flex mb-1 sm:mb-0">
           <Search placeholder="Search for an office..." />
-          <AddButton />
         </div>
       </div>
       <div className="py-4">
-        <OfficesTable data={offices} count={count} isAdmin />
+        <OfficesTable data={offices} count={count} />
       </div>
     </div>
   );

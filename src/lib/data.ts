@@ -20,7 +20,7 @@ export const fetchOffices = async (
     where: { email: session.user.email },
   });
 
-  if (!dbUser || !dbUser.isAdmin) {
+  if (!dbUser) {
     return defaultReturn;
   }
 
