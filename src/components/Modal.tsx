@@ -1,7 +1,13 @@
 "use client";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import FocusTrap from "focus-trap-react";
-import { HTMLAttributes, useEffect, useRef, useState } from "react";
+import {
+  HTMLAttributes,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 
 interface ModalProps extends HTMLAttributes<HTMLDivElement> {
@@ -24,6 +30,27 @@ export const Modal = ({
     setMounted(true);
     return () => setMounted(false);
   }, []);
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    },
+    [onClose]
+  );
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.removeEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown, isOpen]);
 
   useClickOutside(modalContentRef, onClose);
 

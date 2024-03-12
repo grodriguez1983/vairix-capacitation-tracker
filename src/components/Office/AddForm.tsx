@@ -88,6 +88,7 @@ const AddForm = ({ onClose }: { onClose: () => void }) => {
           <button
             className="border-neutral-200 bg-white hover:bg-neutral-100 border-2 px-4 py-1 flex items-center font-white rounded-md transition-colors h-10"
             onClick={onClose}
+            type="button"
           >
             Cancel
           </button>
