@@ -7,14 +7,19 @@ import { Table } from "../Table";
 import { UpdateForm } from "./UpdateForm";
 import { DeleteForm } from "./DeleteForm";
 import { Spinner } from "../Spinner";
+import { useRouter } from "next/navigation";
 
 export const OfficesTable = ({
   data,
   count,
+  isAdmin,
 }: {
   data: Office[];
   count: number;
+  isAdmin?: boolean;
 }) => {
+  const router = useRouter();
+
   const columns = [
     {
       id: "name",
@@ -26,22 +31,26 @@ export const OfficesTable = ({
       render: (date: Date) => date?.toString().slice(4, 16),
     },
     { id: "type", label: "Type" },
-    {
-      id: "actions",
-      label: "Actions",
-      render: (office: Office) => {
-        return (
-          <Actions
-            UpdateForm={({ ...props }) => (
-              <UpdateForm office={office} {...props} />
-            )}
-            DeleteForm={({ ...props }) => (
-              <DeleteForm name={office.name} id={office.id} {...props} />
-            )}
-          />
-        );
-      },
-    },
+    ...(isAdmin
+      ? [
+          {
+            id: "actions",
+            label: "Actions",
+            render: (office: Office) => {
+              return (
+                <Actions
+                  UpdateForm={({ ...props }) => (
+                    <UpdateForm office={office} {...props} />
+                  )}
+                  DeleteForm={({ ...props }) => (
+                    <DeleteForm name={office.name} id={office.id} {...props} />
+                  )}
+                />
+              );
+            },
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -54,10 +63,14 @@ export const OfficesTable = ({
       columns={columns}
       data={data.map((office) => ({
         ...office,
-        actions: office,
+        ...(isAdmin && { actions: office }),
       }))}
       keyField="id"
       pagination={<Pagination count={count} />}
+      onRowClick={(item) => {
+        router.push(`calendar/${item.id}`);
+      }}
+      rowStyle={{ cursor: "pointer" }}
     />
   );
 };

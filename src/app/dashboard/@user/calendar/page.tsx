@@ -1,6 +1,12 @@
 "use client";
 import { FC, useCallback, useState } from "react";
-import { Calendar, dateFnsLocalizer, Event, View } from "react-big-calendar";
+import {
+  Calendar,
+  dateFnsLocalizer,
+  Event,
+  SlotInfo,
+  View,
+} from "react-big-calendar";
 import withDragAndDrop, {
   withDragAndDropProps,
 } from "react-big-calendar/lib/addons/dragAndDrop";
@@ -9,8 +15,8 @@ import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
 import enUS from "date-fns/locale/en-US";
-import addHours from "date-fns/addHours";
-import startOfHour from "date-fns/startOfHour";
+import { addHours } from "date-fns/addHours";
+import { startOfHour } from "date-fns/startOfHour";
 
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -19,7 +25,7 @@ import Card from "@/components/Card";
 const App: FC = () => {
   const [date, setDate] = useState(new Date());
 
-  const onNavigate = useCallback((newDate) => setDate(newDate), []);
+  const onNavigate = useCallback((newDate: Date) => setDate(newDate), []);
 
   const [events, setEvents] = useState<Event[]>([]);
 
@@ -29,8 +35,8 @@ const App: FC = () => {
       events.forEach((event) => {
         if (event.title === name) return false;
         if (
-          (event.start > start && event.start < end) ||
-          (event.end > start && event.end < end)
+          (event.start && event.start > start && event.start < end) ||
+          (event.end && event.end > start && event.end < end)
         ) {
           overlap = true;
         }
@@ -46,8 +52,8 @@ const App: FC = () => {
   }, []);
 
   const handleSelectSlot = useCallback(
-    ({ start, end, title }: { start: Date; end: Date; title: string }) => {
-      const overlap = isOverlapping(start, end, title);
+    ({ start, end, title }: SlotInfo & { title?: string }) => {
+      const overlap = isOverlapping(start, end, title || "");
       if (overlap) {
         alert("esta ocupado!!");
         return;
@@ -62,7 +68,7 @@ const App: FC = () => {
   );
 
   const handleSelectEvent = useCallback(
-    (event) => {
+    (event: Event) => {
       if (window.confirm(`Do you want to remove the event "${event.title}"`)) {
         const newEvents = events.filter((e) => e.title !== event.title);
         setEvents(newEvents);
@@ -71,10 +77,15 @@ const App: FC = () => {
     [events]
   );
 
-  const onEventResize: withDragAndDropProps["onEventResize"] = (data) => {
-    const { title } = data.event;
+  const onEventResize: withDragAndDropProps<Event>["onEventResize"] = (
+    data
+  ) => {
+    const startDate = data.start as Date;
+    const endDate = data.end as Date;
+    const title = data.event.title?.toString() || "";
+
     // we must not allow even overlap
-    const overlap = isOverlapping(data.start, data.end, title);
+    const overlap = isOverlapping(startDate, endDate, title);
     if (overlap) {
       alert("esta ocupado!!");
       return;
@@ -82,16 +93,19 @@ const App: FC = () => {
 
     const event = events.find((event) => event.title === data.event.title);
     if (event) {
-      event.start = data.start;
-      event.end = data.end;
+      event.start = startDate;
+      event.end = endDate;
       setEvents([...events]);
     }
   };
 
-  const onEventDrop: withDragAndDropProps["onEventDrop"] = (data) => {
-    const { title } = data.event;
+  const onEventDrop: withDragAndDropProps<Event>["onEventDrop"] = (data) => {
+    const startDate = data.start as Date;
+    const endDate = data.end as Date;
+    const title = data.event.title?.toString() || "";
+
     // we must not allow even overlap
-    const overlap = isOverlapping(data.start, data.end, title);
+    const overlap = isOverlapping(startDate, endDate, title);
     if (overlap) {
       alert("esta ocupado!!");
       return;
@@ -99,8 +113,8 @@ const App: FC = () => {
 
     const event = events.find((event) => event.title === data.event.title);
     if (event) {
-      event.start = data.start;
-      event.end = data.end;
+      event.start = startDate;
+      event.end = endDate;
       setEvents([...events]);
     }
   };
@@ -121,7 +135,7 @@ const App: FC = () => {
         selectable
         onNavigate={onNavigate}
         onSelectEvent={handleSelectEvent}
-        style={{ height: "100vh", color: "rgb(37 99 235)"}}
+        style={{ height: "100vh", color: "rgb(37 99 235)" }}
       />
     </Card>
   );
@@ -142,7 +156,6 @@ const localizer = dateFnsLocalizer({
   getDay,
   locales,
 });
-//@ts-ignore
 const DnDCalendar = withDragAndDrop(Calendar);
 
 export default App;
