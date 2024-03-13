@@ -1,27 +1,18 @@
 import { Office, OfficeType, OfficesResponse } from "@/types/offices";
-import { PrismaClient } from "@prisma/client";
-import { getServerSession } from "next-auth";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
+import { db } from "../../lib/db";
+import { checkUserRole } from "./auth";
 
-const prisma = globalThis.prisma || new PrismaClient();
+const prisma = db;
 
 export const fetchOffices = async (
   q: string,
   page: number
 ): Promise<OfficesResponse> => {
-  const session = await getServerSession();
-  const defaultReturn = { count: 0, offices: [] };
+  const userRole = await checkUserRole();
 
-  if (!session || !session.user || !session.user.email) {
-    return defaultReturn;
-  }
-
-  const dbUser = await prisma.user.findFirst({
-    where: { email: session.user.email },
-  });
-
-  if (!dbUser) {
-    return defaultReturn;
+  if (userRole === null) {
+    return { count: 0, offices: [] };
   }
 
   try {
@@ -55,24 +46,13 @@ export const fetchOffices = async (
   } catch (error) {
     console.error("Error fetching offices:", error);
     return { count: 0, offices: [], error: "Error fetching offices" };
-  } finally {
-    if (!globalThis.prisma) {
-      await prisma.$disconnect();
-    }
   }
 };
 
 export const fetchOffice = async (id: string): Promise<Office | null> => {
-  const session = await getServerSession();
-  if (!session || !session.user || !session.user.email) {
-    return null;
-  }
+  const userRole = await checkUserRole();
 
-  const dbUser = await prisma.user.findFirst({
-    where: { email: session.user.email },
-  });
-
-  if (!dbUser || !dbUser.isAdmin) {
+  if (userRole !== "admin") {
     return null;
   }
 

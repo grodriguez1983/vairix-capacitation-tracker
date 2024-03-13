@@ -11,6 +11,11 @@ export default async function Layout({
   admin: ReactNode;
 }) {
   const role = await checkUserRole();
+
+  if (role === null) {
+    return <div>Unauthorized or role not determined</div>;
+  }
+
   return (
     <>
       <div id="dialogs" />

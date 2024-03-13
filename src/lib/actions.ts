@@ -1,26 +1,16 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
-import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { db } from "../../lib/db";
+import { checkUserRole } from "./auth";
 
-const prisma = globalThis.prisma || new PrismaClient();
+const prisma = db;
 
 export const deleteOffice = async (formData: FormData) => {
-  const session = await getServerSession();
-  const defaultReturn = { count: 0, offices: [] };
+  const userRole = await checkUserRole();
 
-  if (!session || !session.user || !session.user.email) {
-    return defaultReturn;
-  }
-
-  const dbUser = await prisma.user.findFirst({
-    where: { email: session.user.email },
-  });
-
-  if (!dbUser || !dbUser.isAdmin) {
-    return defaultReturn;
+  if (userRole !== "admin") {
+    return null;
   }
 
   const { id } = Object.fromEntries(formData);
@@ -34,29 +24,16 @@ export const deleteOffice = async (formData: FormData) => {
   } catch (err) {
     console.log(err);
     throw new Error("Failed to delete office!");
-  } finally {
-    if (!globalThis.prisma) {
-      await prisma.$disconnect();
-    }
   }
 
   revalidatePath("/dashboard/offices");
 };
 
 export const addOffice = async (formData: FormData) => {
-  const session = await getServerSession();
-  const defaultReturn = { count: 0, offices: [] };
+  const userRole = await checkUserRole();
 
-  if (!session || !session.user || !session.user.email) {
-    return defaultReturn;
-  }
-
-  const dbUser = await prisma.user.findFirst({
-    where: { email: session.user.email },
-  });
-
-  if (!dbUser || !dbUser.isAdmin) {
-    return defaultReturn;
+  if (userRole !== "admin") {
+    return null;
   }
 
   try {
@@ -70,29 +47,16 @@ export const addOffice = async (formData: FormData) => {
     });
   } catch (err) {
     throw new Error("Failed to create office!");
-  } finally {
-    if (!globalThis.prisma) {
-      await prisma.$disconnect();
-    }
   }
 
   revalidatePath("/dashboard/offices");
 };
 
 export const updateOffice = async (formData: FormData) => {
-  const session = await getServerSession();
-  const defaultReturn = { count: 0, offices: [] };
+  const userRole = await checkUserRole();
 
-  if (!session || !session.user || !session.user.email) {
-    return defaultReturn;
-  }
-
-  const dbUser = await prisma.user.findFirst({
-    where: { email: session.user.email },
-  });
-
-  if (!dbUser || !dbUser.isAdmin) {
-    return defaultReturn;
+  if (userRole !== "admin") {
+    return null;
   }
 
   const { id, name, type } = Object.fromEntries(formData);
@@ -115,10 +79,6 @@ export const updateOffice = async (formData: FormData) => {
   } catch (err) {
     console.log(err);
     throw new Error("Failed to update office!");
-  } finally {
-    if (!globalThis.prisma) {
-      await prisma.$disconnect();
-    }
   }
 
   revalidatePath("/dashboard/offices");

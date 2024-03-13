@@ -72,6 +72,7 @@ export const UpdateForm = ({ office, onClose }: UpdateFormProps) => {
           error={errors.type}
         />
         <div className="flex mt-4 gap-4 justify-center">
+          <SubmitButton label="Update" />
           <button
             className="border-neutral-200 bg-white hover:bg-neutral-100 border-2 px-4 py-1 flex items-center font-white rounded-md transition-colors h-10"
             onClick={onClose}
@@ -79,7 +80,6 @@ export const UpdateForm = ({ office, onClose }: UpdateFormProps) => {
           >
             Cancel
           </button>
-          <SubmitButton label="Update" />
         </div>
       </form>
     </div>

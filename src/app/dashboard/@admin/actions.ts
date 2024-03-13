@@ -1,9 +1,9 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth";
+import { db } from '../../../../lib/db';
 
-const prisma = globalThis.prisma || new PrismaClient();
+const prisma = db;
 
 export async function getUsers(page: number = 1) {
     const session = await getServerSession();
