@@ -1,9 +1,8 @@
-import NextAuth from 'next-auth';
-import CredentialsProvider from "next-auth/providers/credentials"
-import { PrismaClient } from '@prisma/client';
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { db } from "../../../../../lib/db";
 
-
-const prisma = globalThis.prisma || new PrismaClient();
+const prisma = db;
 const AUTH_URL = process.env.AUTH_URL || "";
 
 const handler = NextAuth({
@@ -23,43 +22,50 @@ const handler = NextAuth({
   },
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
         email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         const res = await fetch(AUTH_URL, {
-          method: 'POST',
+          method: "POST",
           body: JSON.stringify(credentials),
-          headers: { "Content-Type": "application/json" }
-        })
-        const user = await res.json()
+          headers: { "Content-Type": "application/json" },
+        });
+        const user = await res.json();
         // If no error and we have user data, return it
-       
+
         if (user && user.data) {
           try {
-            let dbUser = await prisma.user.findFirst({ where: { email: user.data.email} });
+            let dbUser = await prisma.user.findFirst({
+              where: { email: user.data.email },
+            });
             //If the user does not exist, create it
             if (!dbUser) {
-              dbUser = await prisma.user.create({ 
-                data: { 
-                  email: user.data.email, 
+              dbUser = await prisma.user.create({
+                data: {
+                  email: user.data.email,
                   name: `${user.data.first_name} ${user.data.last_name}`,
                   role: String(user.data.role),
                   adminId: String(user.data.id),
-              } });
+                },
+              });
             }
           } catch (error) {
-            console.log({error})
+            console.log({ error });
           }
-          
-          return { email: user.data.email, name: `${user.data.first_name} ${user.data.last_name}`, id: user.data.id }
+
+          return {
+            email: user.data.email,
+            name: `${user.data.first_name} ${user.data.last_name}`,
+            id: user.data.id,
+          };
         }
         // Return null if user data could not be retrieved
-        return null
-      }
-    })
+        return null;
+      },
+    }),
   ],
 });
 

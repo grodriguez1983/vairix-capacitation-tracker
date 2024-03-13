@@ -85,6 +85,7 @@ const AddForm = ({ onClose }: { onClose: () => void }) => {
           error={errors.type}
         />
         <div className="flex mt-4 gap-4 justify-center">
+          <SubmitButton label="Submit" />
           <button
             className="border-neutral-200 bg-white hover:bg-neutral-100 border-2 px-4 py-1 flex items-center font-white rounded-md transition-colors h-10"
             onClick={onClose}
@@ -92,7 +93,6 @@ const AddForm = ({ onClose }: { onClose: () => void }) => {
           >
             Cancel
           </button>
-          <SubmitButton label="Submit" />
         </div>
       </form>
     </div>
