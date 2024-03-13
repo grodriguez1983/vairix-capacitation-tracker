@@ -50,16 +50,14 @@ export const OfficeCalendar = ({ office }: { office: Office }) => {
   };
 
   return (
-    <>
-      <CustomCalendar
-        events={office?.events || []}
-        onView={onView}
-        onSelectSlot={onSelectSlot}
-        onSelectEvent={onSelectEvent}
-        onEventResize={onEventResize}
-        onEventDrop={onEventDrop}
-        view={calendarView}
-      />
-    </>
+    <CustomCalendar
+      events={office?.events || []}
+      onView={onView}
+      onSelectSlot={onSelectSlot}
+      onSelectEvent={onSelectEvent}
+      onEventResize={onEventResize}
+      onEventDrop={onEventDrop}
+      view={calendarView}
+    />
   );
 };
