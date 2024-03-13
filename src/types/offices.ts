@@ -3,11 +3,21 @@ export enum OfficeType {
   Medium = "medium",
   Large = "large",
 }
-  export interface Office {
+export interface Office {
   id: string;
   name: string;
   createdAt: Date;
   type: OfficeType;
+  events?: Event[];
+}
+
+export interface Event {
+  id: string;
+  name: string;
+  createdAt: Date;
+  start: Date;
+  end: Date;
+  officeId: string;
 }
 
 export interface OfficesResponse {
