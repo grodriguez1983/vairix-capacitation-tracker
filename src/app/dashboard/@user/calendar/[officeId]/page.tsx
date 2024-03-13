@@ -2,7 +2,7 @@ import { OfficeCalendar } from "@/components/Calendar/OfficeCalendar";
 import { fetchOffice } from "@/lib/data";
 import { redirect } from "next/navigation";
 
-export default async function CalendarPage({
+export default async function OfficeCalendarPage({
   params: { officeId },
 }: {
   params: { officeId: string };
