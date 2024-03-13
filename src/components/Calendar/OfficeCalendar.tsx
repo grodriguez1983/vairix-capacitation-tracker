@@ -51,7 +51,7 @@ export const OfficeCalendar = ({ office }: { office: Office }) => {
 
   return (
     <CustomCalendar
-      events={office?.events || []}
+      events={events}
       onView={onView}
       onSelectSlot={onSelectSlot}
       onSelectEvent={onSelectEvent}
