@@ -52,7 +52,7 @@ export const fetchOffices = async (
 export const fetchOffice = async (id: string): Promise<Office | null> => {
   const userRole = await checkUserRole();
 
-  if (userRole !== "admin") {
+  if (userRole === null) {
     return null;
   }
 
@@ -60,6 +60,9 @@ export const fetchOffice = async (id: string): Promise<Office | null> => {
     const office = await prisma.office.findUnique({
       where: {
         id: id,
+      },
+      include: {
+        events: true,
       },
     });
 
