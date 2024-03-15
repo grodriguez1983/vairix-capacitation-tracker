@@ -5,8 +5,8 @@ import { Modal } from "../Modal";
 type Form = (props: { onClose: () => void }) => JSX.Element;
 
 interface ActionsProps {
-  UpdateForm: Form;
-  DeleteForm: Form;
+  UpdateForm?: Form;
+  DeleteForm?: Form;
 }
 
 export const Actions = ({ UpdateForm, DeleteForm }: ActionsProps) => {
@@ -19,7 +19,7 @@ export const Actions = ({ UpdateForm, DeleteForm }: ActionsProps) => {
       onClose={() => setDeleteModalOpen(false)}
       className="min-w-[300px] min-h-[150px]"
     >
-      <DeleteForm onClose={() => setDeleteModalOpen(false)} />
+      {DeleteForm && <DeleteForm onClose={() => setDeleteModalOpen(false)} />}
     </Modal>
   );
 
@@ -29,7 +29,7 @@ export const Actions = ({ UpdateForm, DeleteForm }: ActionsProps) => {
       onClose={() => setUpdateModalOpen(false)}
       className="min-w-[300px] min-h-[150px]"
     >
-      <UpdateForm onClose={() => setUpdateModalOpen(false)} />
+      {UpdateForm && <UpdateForm onClose={() => setUpdateModalOpen(false)} />}
     </Modal>
   );
 
@@ -40,22 +40,29 @@ export const Actions = ({ UpdateForm, DeleteForm }: ActionsProps) => {
         e.stopPropagation();
       }}
     >
-      <button
-        className="font-semibold text-green-900 leading-tight"
-        onClick={() => setUpdateModalOpen(true)}
-      >
-        Update
-      </button>
+      {UpdateForm && (
+        <>
+          <button
+            className="font-semibold text-green-900 leading-tight"
+            onClick={() => setUpdateModalOpen(true)}
+          >
+            Update
+          </button>
+          <UpdateModal />
+        </>
+      )}
 
-      <button
-        className="font-semibold text-orange-900 leading-tight"
-        onClick={() => setDeleteModalOpen(true)}
-      >
-        Delete
-      </button>
-
-      <DeleteModal />
-      <UpdateModal />
+      {DeleteForm && (
+        <>
+          <button
+            className="font-semibold text-orange-900 leading-tight"
+            onClick={() => setDeleteModalOpen(true)}
+          >
+            Delete
+          </button>
+          <DeleteModal />
+        </>
+      )}
     </div>
   );
 };
