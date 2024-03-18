@@ -8,6 +8,7 @@ import { signOut } from "next-auth/react";
 import { DashboardIcon } from "./icons/DashboardIcon";
 import { OfficeIcon } from "./icons/OfficeIcon";
 import { usePathname } from "next/navigation";
+import { UserIcon } from "./icons/UserIcon";
 import { CalendarIcon } from "./icons/CalendarIcon";
 
 const SidebarItem = ({
@@ -57,6 +58,10 @@ export const Sidebar = ({ role }: { role: "admin" | "user" }) => {
         label="Calendar"
         icon={CalendarIcon}
       />
+
+      {isAdmin && (
+        <SidebarItem href="/dashboard/users" label="Users" icon={UserIcon} />
+      )}
     </>
   );
 

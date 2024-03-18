@@ -41,7 +41,7 @@ export default function Header() {
           onClick={() => setNavbarOpen(!navbarOpen)}
           className="flex justify-center items-center text-gray-400 hover:text-gray-300 focus:text-gray-300 z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none"
         >
-          <UserIcon />
+          <UserIcon className="h-5 w-5" />
         </button>
         {navbarOpen && (
           <ul className="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
